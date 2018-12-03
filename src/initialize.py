@@ -27,5 +27,4 @@ def initialize():
     data['chn'] = [i.strip() for i in data['chn']] 
     data['syn'] = [[j.strip() for j in i.split(',')] for i in data['syn']]
     data['rec'] = [[int(j.strip()) for j in i.split(',')] for i in data['rec']]
-
     return data
