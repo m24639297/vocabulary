@@ -1,6 +1,18 @@
-from initialize import _default_path, clear, initialize
-from vocData import update
+from vocData import update, _default_path, clear, initialize
 from random import sample, randrange, shuffle
+
+def continue_msg():
+    input('Press ENTER to continue...')
+
+def safe_input(question, choice, exception='', _clear = True):
+    while True:
+        if _clear: clear()
+        x = input(question).strip()
+        if x in choice:
+            return x
+        if exception != '':
+            print(exception)
+            continue_msg()
 
 def list_all(data):
     clear()
@@ -20,16 +32,12 @@ def list_all(data):
               data['chn'][i],' '*(15-2*(len(data['chn'][i]))),\
               syn_data,sep='')
     print('\n\n')
-    input('Press ENTER to continue')
-
+    continue_msg()
 
 
 def quiz(data):
     N = len(data['eng'])
-    while(True):
-        clear()
-        m = input('\nSelect quiz mode  (multiple choices(m), synonyms(sym), spelling(s), exit(e)): \n ')
-        if m in ['m','s','e','sym']: break
+    m = safe_input('\nSelect quiz mode  (multiple choices(m), synonyms(sym), spelling(s), exit(e)): \n ',['m','s','e','sym'])
     
     if m == 'e': return
 
@@ -59,15 +67,16 @@ def quiz(data):
                 data['rec'][index][1] += 1
             else: 
                 question.add(index)
-                input('\nCorrect answer: '+data['eng'][index]\
-                +'\n\n\nPress ENTER to continue')
+                print('\nCorrect answer: '+data['eng'][index]+'\n\n\n')
+                continue_msg()
         clear()
         print('\n Summary: \n')
         
         for i in sorted(correct,key=lambda i: data['eng'][i]):
             print('  {:<15}: '.format(data['eng'][i])+data['chn'][i]) 
-        input('\n\nPress ENTER to continue')
-    
+        print('\n\n')
+        continue_msg()
+
     if m == 'm':
         clear()
         while(True):
@@ -110,13 +119,13 @@ def quiz(data):
                 data['rec'][index][1] += 1
             else:
                 print('\nCorrect answer: {}\n'.format(chr(ans)))
-                input('Press ENTER to continue')
+                continue_msg()
                 question.add(index)
         clear()
         print('\n Summary: \n')
         for i in sorted(correct,key=lambda i: data['eng'][i]):
-            print('  {:<15}: '.format(data['eng'][i])+data['chn'][i]) 
-        input('\n\nPress ENTER to continue')
+            print('  {:<15}: '.format(data['eng'][i])+data['chn'][i]+'\n') 
+        continue_msg()
     update(data)
     return initialize()
 
@@ -127,11 +136,9 @@ def add_word(data, path=_default_path):
         tmp_eng = input('\nEnglish (Press ENTER to finish): ').strip()
         if tmp_eng == '': break
         if tmp_eng in data['eng']:
-            while True:
-                x = input('Word has existed, replace(r), add(a), or skip(s): ').strip()
-                if x in ['r','a','s']: break
-                else: clear; print('Invalid input\n')
+            x = safe_input('Word "{}" has existed, replace(r), add(a), or skip(s): '.format(tmp_eng),['r','a','s'])
         if x == 's':
+            clear()
             print('\n--Skipped--\n')
             continue
         tmp_chn = input('Chinese: ').strip()

@@ -1,6 +1,5 @@
-from initialize import initialize, _default_path, clear
 from functions import list_all, quiz, add_word, history
-from vocData import update
+from vocData import update, initialize, _default_path, clear
 
 data = initialize()
 eng = data['eng']
