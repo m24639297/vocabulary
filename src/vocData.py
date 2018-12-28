@@ -26,6 +26,9 @@ def initialize():
     data['chn'] = [i.strip() for i in data['chn']] 
     data['syn'] = [[j.strip() for j in i.split(',')] for i in data['syn']]
     data['rec'] = [[int(j.strip()) for j in i.split(',')] for i in data['rec']]
+    for i in range(len(data['syn'])):
+        if data['syn'][i]==['']: data['syn'][i]=[]
+
     return data
 
 
@@ -33,13 +36,19 @@ def update(data, path = _default_path):
     eng,chn,syn,rec = '','','',''
     for i in data['eng']:
         eng += (str(i)+'\n')
+        
     for i in data['chn']:
         chn += (str(i)+'\n')
+
     for i in data['syn']:
+        if i==[]:
+            syn += '\n'
+            continue
         for j in i:
             syn += (str(j)+',')
         syn = syn[:-1]
         syn += '\n'
+
     for i in data['rec']:
         rec += (str(i[0])+','+str(i[1])+'\n')
 
@@ -50,4 +59,3 @@ def update(data, path = _default_path):
         f=  open(path+'{}.txt'.format(i),'w')
         f.write(s_write[i])
         f.close()
-

@@ -7,8 +7,10 @@ chn = data['chn']
 syn = data['syn']
 rec = data['rec']
 
+
 while(True):
     clear()
+    # print(data)
     mode = input('\nPlease select mode (v: view all, q: quiz, a: add words, h: history, e: exit)\n')
     if mode not in ['v','q','a','e','h']:
         clear()
@@ -16,7 +18,7 @@ while(True):
     if mode == 'e' or mode == 'E':
         clear()
         update(data)
-        print('\nBye'+'\n'*10)
+        print('\n  Bye~'+'\n'*10)
         break
     if mode == 'v' or mode == 'V':
         list_all(data)

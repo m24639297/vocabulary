@@ -1,3 +1,6 @@
+
+####### THIS FILE IS NOT IN USED !!!!!!!!! #########
+
 #from basic import word
 import os
 
@@ -27,4 +30,9 @@ def initialize():
     data['chn'] = [i.strip() for i in data['chn']] 
     data['syn'] = [[j.strip() for j in i.split(',')] for i in data['syn']]
     data['rec'] = [[int(j.strip()) for j in i.split(',')] for i in data['rec']]
+    print('hi')
+    for i in range(len(data['syn'])):
+        print(data['syn'][i])
+        if data['syn'][i][0]=='': data['syn'][i]==[]
+
     return data
