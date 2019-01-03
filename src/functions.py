@@ -17,7 +17,7 @@ def safe_input(question, choice, exception='', _clear = True):
             continue_msg()
 
 def get_hint(_words, _target):
-    print('Input: {}, {}'.format(_words,_target))
+    # print('Input: {}, {}'.format(_words,_target))
     words = _words.copy()
     target = _target
     prefix = ''
@@ -128,9 +128,10 @@ def quiz(data):
                 if cc == only_correct: correct_ans = [chr(alp),chr(alp+32)]
                 alp += 1
 
-        if m == 'syn':
-            print('\n  To be added...')
-            break
+        # if m == 'syn':
+        #     print('\n  To be added...')
+        #     break
+        #     return data
 
         print(ques_string)
 
