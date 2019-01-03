@@ -68,7 +68,7 @@ def quiz(data):
     N = len(data['eng'])
     m = safe_input('\nSelect quiz mode  (multiple choices(m), synonyms(sym), spelling(s), exit(e)): \n ',['m','s','e','sym'])
     
-    if m == 'e': return
+    if m == 'e': return data
     
     ##### Number of question #####
     clear()
@@ -144,7 +144,8 @@ def quiz(data):
             data['rec'][index][1] += 1
         else:
             question.put(index)
-            print('\n  Correct answer: ({}) {} \n\n\n'.format(correct_ans[0].upper(),only_correct))
+            if m=='m': print('\n  Correct answer: ({}) {} \n\n\n'.format(correct_ans[0].upper(),only_correct))
+            if m=='s': print('\n  Correct answer: {} \n\n\n'.format(only_correct))          
             continue_msg()
 
     ##### 總結 #######
