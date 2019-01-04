@@ -1,9 +1,6 @@
 # Your Vocabulary Book
 ## An easy-to-use and adaptable vocabulary book
 
-## Notice
-
-[comment] : # (<font color='red'> For anyone coming for the Computer Programming Final Project, please switch to 'cp' branch. <font>)
 
 ## Feature
 
