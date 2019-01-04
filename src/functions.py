@@ -2,8 +2,10 @@ from vocData import update, _default_path, clear, initialize
 from random import sample, randrange, shuffle
 from queue import Queue
 from itertools import zip_longest
+
 def continue_msg():
     input('Press ENTER to continue...')
+
 def safe_input(question, choice, exception='', _clear = True):
     while True:
         if _clear:
@@ -14,8 +16,8 @@ def safe_input(question, choice, exception='', _clear = True):
         if exception != '':
             print(exception)
             continue_msg()
+
 def get_hint(_words, _target):
-    # print('Input: {}, {}'.format(_words,_target))
     words = _words.copy()
     target = _target
     prefix = ''
@@ -44,15 +46,15 @@ def list_all(data):
         indexlist = []
         for k in range(len(data['index_type'])):
             indexlist.append(str(k))
-        print('\nPlease chose the type of the word you want to view\n'
-              '<class type>')
+        print('\n Please choose word type to view\n'
+              '\n #  Type\n')
         for k in range(len(data["index_type"])):
-            print(k, data['index_type'][k][1])
-        i = str(input()).strip()
+            print('%2d  '%k, data['index_type'][k][1], sep = '')
+        i = str(input('\n Type number: ')).strip()
         if i == '':
             i ='0'
         while i not in indexlist:
-            print("Sorry there is no such word class,please enter again")
+            print(" Type not found, please enter again")
             i = str(input()).strip()
         while True:
             if i =="0":
@@ -61,7 +63,7 @@ def list_all(data):
                     if data['type'][k] == data['index_type'][int(i)][0]:
                         wordlist.append(data['eng'][k])
                 if wordlist ==[]:
-                    i = str(input("Sorry there is no word under this word class,please enter again\n").strip())
+                    i = str(input(" No word under this type, please enter again\n").strip())
                 else:
                     break
             else:
@@ -72,11 +74,10 @@ def list_all(data):
                 break
         wordlist.sort()
         clear()
-        print('\n')
-        print('\n','{:<14}'.format('English'),'{:<15}'.format('Chinese'),'Synonym','\n',sep='')
+        print('\n',' {:<14}'.format('English'),'{:<15}'.format('Chinese'),'Synonym','\n',sep='')
         for i in range(len(wordlist)):
-            syn = ','.join(data['syn'][data['eng'].index(wordlist[i])])
-            print('{:<14}'.format(wordlist[i]),\
+            syn = ', '.join(data['syn'][data['eng'].index(wordlist[i])])
+            print(' {:<14}'.format(wordlist[i]),\
               data['chn'][data['eng'].index(wordlist[i])],' '*(15-2*(len(data['chn'][data['eng'].index(wordlist[i])]))),\
               syn,sep='')
         print('\n')
@@ -90,7 +91,7 @@ def quiz(data):
 
     N = len(data['eng'])
     m = safe_input('\nSelect quiz mode  (multiple choices(m), spelling(s), exit(e)): \n ',
-                   ['m', 's', 'e'])
+                   ['m', 's', 'e']).lower()
 
     if m == 'e': return data
 
@@ -193,15 +194,15 @@ def add_word(data, path=_default_path):
     clear()
     while True:
         x = None
-        tmp_eng = input('\nEnglish (Press ENTER to finish): ').strip()
+        tmp_eng = input('\n English (Press ENTER to finish): ').strip()
         if tmp_eng == '': break
         if tmp_eng in data['eng']:
-            x = safe_input('Word "{}" has existed, add(a), or skip(s): '.format(tmp_eng), ['a', 's'])
+            x = safe_input(' Word "{}" has existed, add(a), or skip(s): '.format(tmp_eng), ['a', 's'])
         if x == 's':
             clear()
             print('\n--Skipped--\n')
             continue
-        print("\nPlease chose the type (enter the number).\n"
+        print("\n Please choose the type (enter the number).\n"
               'or enter new type name to add a new type.\n'
               "If you don't want to classify this word, just left it blank\n"
               "(press enter to continue)\n\n"
@@ -238,6 +239,7 @@ def history(data):
     for i in sorted(range(N), key = lambda i: data['eng'][i]):
         print('{:<14}: ({}, {})'.format(data['eng'][i],data['rec'][i][1],data['rec'][i][0]-data['rec'][i][1]))
     input('\nPress ENTER to continue')
+
 def edit(data):
     if data['eng'] ==[]:
         print("\nThere is no word yet\n")
@@ -246,13 +248,14 @@ def edit(data):
         indexlist = []
         for k in range(len(data['index_type'])):
             indexlist.append(str(k))
-        print('\nplease chose the type of the word you want to edit|\n'
-              'if the word is not classified, just press enter to continue\n'
-              '<class type>')
+        clear()
+        print('\nPlease choose word type to edit\n'
+              'To show unclassified words, press enter to continue\n'
+              '\n #   type')
 
         for k in range(len(data["index_type"])):
-            print(k, data['index_type'][k][1])
-        i = str(input()).strip()
+            print('%2d  '%k, data['index_type'][k][1])
+        i = str(input('\n Select type: ')).strip()
         if i == '':
             i ='0'
         while True:
@@ -262,11 +265,11 @@ def edit(data):
                     if data['type'][k] == data['index_type'][int(i)][0]:
                         wordlist.append(data['eng'][k])
                 if wordlist ==[]:
-                    i = str(input("There is no word under this word type, please enter another word class again\n").strip())
+                    i = str(input("No word in this type, please choose another type.\n").strip())
                 else:
                     break
             elif i != 0 and i not in indexlist:
-                print("Sorry there is no such word type,please enter again")
+                print("Word not found, please enter again")
                 i = str(input()).strip()
             else:
                 wordlist = []
@@ -275,7 +278,7 @@ def edit(data):
                         wordlist.append(data['eng'][k])
                 break
         clear()
-        print('please chose the word you want to edit')
+        print('\n Please choose the word to edit')
         print('\nclass<',data['index_type'][int(i)][1],'>:\n')
         wordlist = []
         for k in range(len(data['type'])):
@@ -295,41 +298,38 @@ def edit(data):
         b = wordlist[r-1]
         clear()
         print("\n%s\n"%b)
-        f = input("Which part of the word do you want to edit(e: english, c: chinese, s: synonym, r: remove) this word?\n")
+        f = input(" Which part of the word do you want to edit? \n (e: english, c: chinese, s: synonym, r: remove)\n ")
         if f == 'e':
-            print('original english :',b)
-            new = input('new :')
-            print("Are you sure to change the english of  %s ?\n"%b)
-            sure = input('(enter y or n)\n')
-            if sure == 'y' or sure =='Y':
+            print(' Original English:',b)
+            new = input(' New: ')
+            sure = input(" Are you sure to change English of '%s' ? (y/n) "%b).lower()
+            if sure in ['y','']:
                 i = data['eng'].index(b)
                 data['eng'][i] = new
                 continue_msg()
             else:
                 continue_msg()
         if f == 'c':
-            print('original chinese :',data['chn'][data['eng'].index(b)])
-            new = input('new :')
-            print("Are you sure to change the chinese of  %s ?\n"%b)
-            sure = input('(enter y or n)\n')
-            if sure == 'y' or sure =='Y':
+            print(' Original Chinese:',data['chn'][data['eng'].index(b)])
+            new = input('New: ')
+            sure = input(" Are you sure to change Chinese of '%s' ? (y    /n) "%b).lower()
+            if sure in ['y','']:
                 data['chn'][data['eng'].index(b)] = new
                 continue_msg()
             else:
                 continue_msg()
 
         if f == 's':
-            print('enter new synonyms(saperated by comma )')
+            print(' Enter new synonyms (separated by comma)')
             syn = ' '.join(data['syn'][data['eng'].index(b)])
-            print('original synonyms : ',syn)
-            a= input('new synonyms :').strip()
+            print(' Original synonyms:',syn)
+            a= input(' New synonyms: ').strip()
             if a =='':
                 a = 'X'
             a = a.split(',')
             print('\n\n')
-            print("Are you sure to change the synonyms of %s ?"%b)
-            sure = input('(enter y or n)\n')
-            if sure == 'y' or sure =='Y':
+            sure = input(" Are you sure to change the synonyms of '%s'? (y/n) "%b).lower()
+            if sure in ['y','']:
                 data['syn'][data['eng'].index(b)] = a
                 print('\n\n')
                 continue_msg()
@@ -337,16 +337,15 @@ def edit(data):
                 continue_msg()
         if f =='r':
             print('\n\n')
-            print("Are you sure to delete %s ?"%b)
-            sure = input('(enter y or n)\n')
-            if sure == 'y' or sure =='Y':
+            sure = input(" Are you sure to delete '%s'? (y/n) "%b)
+            if sure in ['y', '']:
                 place = data['eng'].index(b)
                 data['eng'].pop(place)
                 data['chn'].pop(place)
                 data['syn'].pop(place)
                 data['rec'].pop(place)
                 data['type'].pop(place)
-                print("The word <%s> has been deleted\n" % b)
+                print(" The word '%s' has been deleted\n" % b)
                 for i in range(1,len(data['index_type'])):
                     if str(i) not in data['type']:
                         data['index_type'].pop(i)
@@ -355,10 +354,4 @@ def edit(data):
                 continue_msg()
         update(data)
         return data
-
-
-
-
-
-
 

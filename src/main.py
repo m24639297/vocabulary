@@ -7,6 +7,7 @@ chn = data['chn']
 syn = data['syn']
 rec = data['rec']
 index_type = data['index_type']
+
 type_ = data['type']
 while(True):
     clear()
