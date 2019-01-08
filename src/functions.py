@@ -169,7 +169,7 @@ def quiz(data):
         ##### 回答與處理 ######
         reply = input('  Answer: ')
 
-        if reply in correct_ans:
+        if reply == only_correct: # in correct_ans:
             correct.add(index)
             correct_list.append((only_correct, data['chn'][index]))
             data['rec'][index][1] += 1
@@ -324,8 +324,6 @@ def edit(data):
             syn = ' '.join(data['syn'][data['eng'].index(b)])
             print(' Original synonyms:',syn)
             a= input(' New synonyms: ').strip()
-            if a =='':
-                a = 'X'
             a = a.split(',')
             print('\n\n')
             sure = input(" Are you sure to change the synonyms of '%s'? (y/n) "%b).lower()
