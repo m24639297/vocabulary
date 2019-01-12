@@ -1,7 +1,6 @@
 # Your Vocabulary Book
 ## An easy-to-use and adaptable vocabulary book
 
-
 ## Feature
 
 *  Words classfication
