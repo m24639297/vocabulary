@@ -167,9 +167,9 @@ def quiz(data):
         print(ques_string)
 
         ##### 回答與處理 ######
-        reply = input('  Answer: ')
+        reply = input('  Answer: ').lower()
 
-        if reply == only_correct: # in correct_ans:
+        if reply in correct_ans:
             correct.add(index)
             correct_list.append((only_correct, data['chn'][index]))
             data['rec'][index][1] += 1
